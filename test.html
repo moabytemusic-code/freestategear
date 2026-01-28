@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Exposure Test | FreeState Gear</title>
+    <link rel="stylesheet" href="style.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Oswald:wght@400;600&display=swap"
+        rel="stylesheet">
+    <style>
+        .quiz-container {
+            max-width: 600px;
+            margin: 100px auto;
+            background: #111;
+            padding: 2rem;
+            border: 1px solid #333;
+            border-radius: 4px;
+        }
+
+        .question {
+            display: none;
+        }
+
+        .question.active {
+            display: block;
+        }
+
+        .option {
+            display: block;
+            width: 100%;
+            padding: 1rem;
+            margin: 0.5rem 0;
+            background: #222;
+            border: 1px solid #444;
+            color: #fff;
+            text-align: left;
+            cursor: pointer;
+            font-family: 'JetBrains Mono', monospace;
+            transition: 0.2s;
+        }
+
+        .option:hover {
+            border-color: #d946ef;
+            background: #1a1a1a;
+        }
+
+        .progress-bar {
+            height: 4px;
+            background: #222;
+            margin-bottom: 2rem;
+            width: 100%;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: #d946ef;
+            width: 0%;
+            transition: 0.3s;
+        }
+
+        /* Results Screen */
+        #results {
+            display: none;
+            text-align: center;
+        }
+
+        .score-circle {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            border: 8px solid #ef4444;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            font-weight: bold;
+            margin: 2rem auto;
+            color: #ef4444;
+            box-shadow: 0 0 20px rgba(239, 68, 68, 0.4);
+        }
+
+        .threat-level {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav style="padding: 1.5rem; border-bottom: 1px solid #222;">
+        <div class="container" style="display:flex; justify-content:space-between; align-items:center;">
+            <div class="logo" style="font-family:'Oswald'; font-weight:700; font-size:1.5rem; letter-spacing:1px;">
+                FREESTATE<span style="color:#d946ef;">GEAR</span>
+            </div>
+        </div>
+    </nav>
+
+    <div class="quiz-container">
+        <div class="progress-bar">
+            <div class="progress-fill" id="progress"></div>
+        </div>
+
+        <!-- Q1 -->
+        <div class="question active" id="q1">
+            <h3>1. Do you carry your smartphone with you everywhere you go?</h3>
+            <button class="option" onclick="nextQuestion(20)">Yes, 24/7</button>
+            <button class="option" onclick="nextQuestion(10)">Most of the time</button>
+            <button class="option" onclick="nextQuestion(0)">No, I often leave it behind</button>
+        </div>
+
+        <!-- Q2 -->
+        <div class="question" id="q2">
+            <h3>2. Is your Bluetooth or WiFi usually left 'ON' (even when not connecting)?</h3>
+            <button class="option" onclick="nextQuestion(20)">Yes, always.</button>
+            <button class="option" onclick="nextQuestion(5)">I toggle it off sometimes.</button>
+            <button class="option" onclick="nextQuestion(0)">No, I keep them off unless using.</button>
+        </div>
+
+        <!-- Q3 -->
+        <div class="question" id="q3">
+            <h3>3. Do you use a Farady Bag or Signal Blocker currently?</h3>
+            <button class="option" onclick="nextQuestion(20)">No, never heard of it.</button>
+            <button class="option" onclick="nextQuestion(10)">I've heard of them, don't own one.</button>
+            <button class="option" onclick="nextQuestion(0)">Yes, I use one daily.</button>
+        </div>
+
+        <!-- Q4 -->
+        <div class="question" id="q4">
+            <h3>4. How many 'Big Tech' apps track your location (Google Maps, Facebook, Weather)?</h3>
+            <button class="option" onclick="nextQuestion(20)">All of them (5+ apps).</button>
+            <button class="option" onclick="nextQuestion(10)">A few (1-3 apps).</button>
+            <button class="option" onclick="nextQuestion(0)">None, I use de-Googled OS.</button>
+        </div>
+
+        <!-- Q5 -->
+        <div class="question" id="q5">
+            <h3>5. If you needed to vanish right now, could your phone be traced?</h3>
+            <button class="option" onclick="nextQuestion(20)">Yes, instantly - it's always on.</button>
+            <button class="option" onclick="nextQuestion(10)">Maybe, if they triangulate towers.</button>
+            <button class="option" onclick="nextQuestion(0)">No, I can go dark instantly.</button>
+        </div>
+
+        <!-- Results -->
+        <div id="results">
+            <h2>THREAT ANALYSIS COMPLETE</h2>
+            <div class="score-circle" id="score-display">0%</div>
+            <div class="threat-level" id="threat-text">CRITICAL</div>
+
+            <p style="color:#aaa; line-height:1.6; margin-bottom:2rem;">
+                Your digital footprint is <span style="color:#fff; border-bottom:1px solid #ef4444;">highly
+                    visible</span>.
+                Data brokers, advertisers, and surveillance entities can track your real-time location with 95%
+                accuracy.
+            </p>
+
+            <div style="background:#222; padding:1.5rem; border:1px solid #444; margin-bottom:2rem;">
+                <h4>RECOMMENDED SOLTUION:</h4>
+                <p>Immediate signal isolation required.</p>
+            </div>
+
+            <a href="index.html#offer" class="btn btn-primary" style="display:block; width:100%; text-align:center;">
+                GET THE GHOST SLEEVE & Protocol Zero &rarr;
+            </a>
+        </div>
+    </div>
+
+    <script>
+        let currentQ = 1;
+        let totalScore = 0;
+        const totalQs = 5;
+
+        function nextQuestion(points) {
+            totalScore += points;
+
+            // Hide current
+            document.getElementById(`q${currentQ}`).classList.remove('active');
+
+            // Move to next
+            currentQ++;
+            const progress = ((currentQ - 1) / totalQs) * 100;
+            document.getElementById('progress').style.width = `${progress}%`;
+
+            if (currentQ <= totalQs) {
+                document.getElementById(`q${currentQ}`).classList.add('active');
+            } else {
+                showResults();
+            }
+        }
+
+        function showResults() {
+            document.getElementById('results').style.display = 'block';
+
+            // Calculate percentage
+            // Max score is 100 (5 * 20)
+            // But we want "Vulnerability Score", so higher is scarier.
+
+            let threatText = "LOW";
+            let color = "#10b981"; // Green
+
+            if (totalScore > 40) {
+                threatText = "MODERATE";
+                color = "#f59e0b"; // Orange
+            }
+            if (totalScore > 70) {
+                threatText = "CRITICAL";
+                color = "#ef4444"; // Red
+            }
+
+            // Animate Score
+            let start = 0;
+            const counter = setInterval(() => {
+                start++;
+                document.getElementById('score-display').innerText = `${start}%`;
+                if (start >= totalScore) clearInterval(counter);
+            }, 20);
+
+            document.getElementById('score-display').style.borderColor = color;
+            document.getElementById('score-display').style.color = color;
+            document.getElementById('threat-text').innerText = threatText + " EXPOSURE";
+            document.getElementById('threat-text').style.color = color;
+        }
+    </script>
+</body>
+
+</html>
